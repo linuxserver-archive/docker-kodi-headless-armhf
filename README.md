@@ -79,4 +79,5 @@ Various members of the xbmc/kodi community for patches and advice.
 
 ## Versions
 
++ **23.04.17:** Refine cmake, use cmake ppa and take out uneeded bootstrap line.
 + **22.04.17:** Initial Release.
