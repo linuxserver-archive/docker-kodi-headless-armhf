@@ -1,7 +1,7 @@
 FROM lsiobase/xenial.armhf
 MAINTAINER sparklyballs
 
-# package version
+# package version
 ARG KODI_NAME="Krypton"
 ARG KODI_VER="17.1"
 
@@ -10,21 +10,22 @@ ARG BUILD_DATE
 ARG VERSION
 LABEL build_version="Build-date:- ${BUILD_DATE}"
 
-# environment settings
+# environment settings
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"
 
-# copy patches and excludes
+# copy patches and excludes
 COPY patches/ /patches/
 COPY excludes /etc/dpkg/dpkg.cfg.d/excludes
 
-# build packages variable
+# build packages variable
 ARG BUILD_DEPENDENCIES="\
 	ant \
 	autoconf \
 	automake \
 	autopoint \
 	binutils \
+	ccache \
 	cmake \
 	curl \
 	default-jdk \
@@ -58,6 +59,7 @@ ARG BUILD_DEPENDENCIES="\
 	libmysqlclient-dev \
 	libnfs-dev \
 	libpcre3-dev \
+	libplist-dev \
 	libsmbclient-dev \
 	libsqlite3-dev \
 	libssh-dev \
@@ -79,7 +81,7 @@ ARG BUILD_DEPENDENCIES="\
 	yasm \
 	zip"
 
-# runtime packages variable
+# runtime packages variable
 ARG RUNTIME_DEPENDENCIES="\
 	libcdio13 \
 	libcurl3 \
@@ -94,6 +96,7 @@ ARG RUNTIME_DEPENDENCIES="\
 	libmysqlclient20 \
 	libnfs8 \
 	libpcrecpp0v5 \
+	libplist3 \
 	libpython2.7 \
 	libsmbclient \
 	libssh-4 \
@@ -105,13 +108,18 @@ ARG RUNTIME_DEPENDENCIES="\
 	libxslt1.1 \
 	libyajl2"
 
-# install build packages
+# install build packages
 RUN \
+ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 828AB726 && \
+ echo "deb http://ppa.launchpad.net/george-edison55/cmake-3.x/ubuntu xenial main" >> \
+	/etc/apt/sources.list.d/cmake.list && \
+ echo "deb-src http://ppa.launchpad.net/george-edison55/cmake-3.x/ubuntu xenial main" >> \
+	/etc/apt/sources.list.d/cmake.list && \
  apt-get update && \
  apt-get install -y \
  	$BUILD_DEPENDENCIES && \
 
-# fetch, unpack  and patch source
+# fetch, unpack  and patch source
  mkdir -p \
 	/tmp/kodi-source && \
  curl -o \
@@ -123,8 +131,7 @@ RUN \
  git apply \
 	/patches/"${KODI_NAME}"/headless.patch && \
 
-# configure source
- ./bootstrap && \
+# configure source
  mkdir -p \
 	/tmp/kodi-source/build && \
  cd /tmp/kodi-source/build && \
@@ -138,6 +145,7 @@ RUN \
 		-DENABLE_BLUETOOTH=OFF \
 		-DENABLE_BLURAY=ON \
 		-DENABLE_CAP=OFF \
+		-DENABLE_CEC=OFF \
 		-DENABLE_DBUS=OFF \
 		-DENABLE_DVDCSS=OFF \
 		-DENABLE_LIBUSB=OFF \
@@ -145,13 +153,14 @@ RUN \
 		-DENABLE_NONFREE=OFF \
 		-DENABLE_OPTICAL=OFF \
 		-DENABLE_PULSEAUDIO=OFF \
+		-DENABLE_SDL=OFF \
 		-DENABLE_SSH=ON \
 		-DENABLE_UDEV=OFF \
 		-DENABLE_UPNP=ON \
 		-DENABLE_VAAPI=OFF \
 		-DENABLE_VDPAU=OFF && \
 
-# compile and install kodi
+# compile and install kodi
  make && \
  make install && \
 
@@ -163,11 +172,11 @@ RUN \
 	/tmp/kodi-source/tools/EventClients/lib/python/xbmcclient.py \
 	/usr/lib/python2.7/xbmcclient.py && \
 
-# uninstall build packages
+# uninstall build packages
  apt-get purge -y --auto-remove \
 	$BUILD_DEPENDENCIES && \
 
-# install runtime packages
+# install runtime packages
  apt-get update && \
  apt-get install -y \
 	--no-install-recommends \
@@ -180,9 +189,9 @@ RUN \
 	/var/lib/apt/lists/* \
 	/var/tmp/*
 
-# add local files
+# add local files
 COPY root/ /
 
-# ports and volumes
+# ports and volumes
 VOLUME /config/.kodi
 EXPOSE 8080 9777/udp
