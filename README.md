@@ -79,6 +79,7 @@ Various members of the xbmc/kodi community for patches and advice.
 
 ## Versions
 
++ **04.01.18:** Deprecate cpu_core routine lack of scaling.
 + **21.12.17:** Fix continuation lines.
 + **17.11.17:** Bump Krypton to 17.6.
 + **25.10.17:** Bump Krypton to 17.5.
