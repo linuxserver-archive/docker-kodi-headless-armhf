@@ -1,4 +1,4 @@
-FROM lsiobase/ubuntu.armhf:xenial
+FROM lsiobase/ubuntu.armhf:bionic
 
 # set version label
 ARG BUILD_DATE
@@ -37,7 +37,7 @@ ARG BUILD_DEPENDENCIES="\
 	libass-dev \
 	libavahi-client-dev \
 	libbluray-dev \
-	libboost1.58-dev \
+	libboost-all-dev \
 	libbz2-ocaml-dev \
 	libcap-dev \
 	libcurl4-openssl-dev \
@@ -47,9 +47,7 @@ ARG BUILD_DEPENDENCIES="\
 	libgif-dev \
 	libgle3-dev \
 	libglew-dev \
-	libgnutls-dev \
 	libiso9660-dev \
-	libjasper-dev \
 	libjpeg-dev \
 	liblcms2-dev \
 	liblzo2-dev \
@@ -82,18 +80,18 @@ ARG BUILD_DEPENDENCIES="\
 
 # runtime packages variable
 ARG RUNTIME_DEPENDENCIES="\
-	libcdio13 \
+	libcdio17 \
 	libcurl3 \
 	libegl1-mesa \
 	libfreetype6 \
 	libfribidi0 \
-	libglew1.13 \
+	libglew2.0 \
 	libjpeg8 \
 	liblcms2-2 \
 	liblzo2-2 \
-	libmicrohttpd10 \
+	libmicrohttpd12 \
 	libmysqlclient20 \
-	libnfs8 \
+	libnfs11 \
 	libpcrecpp0v5 \
 	libplist3 \
 	libpython2.7 \
@@ -109,6 +107,8 @@ ARG RUNTIME_DEPENDENCIES="\
 
 RUN \
  echo "**** add cmake  repository ****" && \
+ apt-get update && \
+ apt-get install -y gnupg2 && \
  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 828AB726 && \
  echo "deb http://ppa.launchpad.net/george-edison55/cmake-3.x/ubuntu xenial main" >> \
 	/etc/apt/sources.list.d/cmake.list && \
@@ -185,4 +185,4 @@ COPY root/ /
 
 # ports and volumes
 VOLUME /config/.kodi
-EXPOSE 8080 9777/udp
+EXPOSE 8080 9090 9777/udp
