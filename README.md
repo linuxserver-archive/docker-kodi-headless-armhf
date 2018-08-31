@@ -26,13 +26,14 @@ docker create --name=kodi-headless \
 -v <path to data>:/config/.kodi \
 -e PGID=<gid> -e PUID=<uid> \
 -e TZ=<timezone> \
--p 8080:8080 -p 9777:9777/udp \
+-p 8080:8080 -p 9090:9090 -p 9777:9777/udp \
 lsioarmhf/kodi-headless
 ```
 
 **Parameters**
 
 * `-p 8080` - webui port
+* `-p 9090` - websockets port
 * `-p 9777/udp` - esall interface port
 * `-v /config/.kodi` - path for kodi configuration files
 * `-e PGID` for GroupID - see below for explanation
