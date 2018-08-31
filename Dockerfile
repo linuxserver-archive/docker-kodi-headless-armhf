@@ -106,14 +106,6 @@ ARG RUNTIME_DEPENDENCIES="\
 	libyajl2"
 
 RUN \
- echo "**** add cmake  repository ****" && \
- apt-get update && \
- apt-get install -y gnupg2 && \
- apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 828AB726 && \
- echo "deb http://ppa.launchpad.net/george-edison55/cmake-3.x/ubuntu xenial main" >> \
-	/etc/apt/sources.list.d/cmake.list && \
- echo "deb-src http://ppa.launchpad.net/george-edison55/cmake-3.x/ubuntu xenial main" >> \
-	/etc/apt/sources.list.d/cmake.list && \
  echo "**** install build packages ****" && \
  apt-get update && \
  apt-get install -y \
