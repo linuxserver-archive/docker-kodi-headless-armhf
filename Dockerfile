@@ -89,9 +89,9 @@ ARG RUNTIME_DEPENDENCIES="\
 	libjpeg8 \
 	liblcms2-2 \
 	liblzo2-2 \
-	libmicrohttpd12 \	
+	libmicrohttpd10 \
 	libmysqlclient20 \
-	libnfs11 \	
+	libnfs8 \
 	libpcrecpp0v5 \
 	libplist3 \
 	libpython2.7 \
@@ -107,8 +107,6 @@ ARG RUNTIME_DEPENDENCIES="\
 
 RUN \
  echo "**** add cmake  repository ****" && \
- apt-get update && \
- apt-get install -y gnupg2 && \
  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 828AB726 && \
  echo "deb http://ppa.launchpad.net/george-edison55/cmake-3.x/ubuntu xenial main" >> \
 	/etc/apt/sources.list.d/cmake.list && \
