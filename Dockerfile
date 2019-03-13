@@ -1,5 +1,5 @@
 ARG UBUNTU_VER="bionic"
-FROM lsiobase/alpine.armhf:${UBUNTU_VER} as buildstage
+FROM lsiobase/ubuntu.armhf:${UBUNTU_VER} as buildstage
 ############## build stage ##############
 
 # package versions
@@ -139,7 +139,7 @@ RUN \
 	/tmp/kodi-source/tools/EventClients/lib/python/xbmcclient.py \
 	/usr/lib/python2.7/xbmcclient.py
 
-FROM lsiobase/alpine.armhf:${UBUNTU_VER}
+FROM lsiobase/ubuntu.armhf:${UBUNTU_VER}
 
 ############## runtime stage ##############
 
