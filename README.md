@@ -78,10 +78,17 @@ If you intend to use this kodi instance to perform library tasks other than mere
 `docker inspect -f '{{ index .Config.Labels "build_version" }}' lsioarmhf/kodi-headless`
 
 ## Credits
-Various members of the xbmc/kodi community for patches and advice.
+For inspiration, and most importantly, the headless patches without which none of this would have been possible. 
+
++ [Celedhrim](https://github.com/Celedhrim)
++ [sinopsysHK](https://github.com/sinopsysHK)
++ [wernerb](https://github.com/wernerb)
+
+Various other members of the xbmc/kodi community for advice.
 
 ## Versions
 
++ **13.03.19:** Switch to Leia.
 + **03.09.18:** Add back libnfs dependency.
 + **31.08.18:** Rebase to ubuntu bionic, use buildstage and add info about websockets port.
 + **04.01.18:** Deprecate cpu_core routine lack of scaling.
