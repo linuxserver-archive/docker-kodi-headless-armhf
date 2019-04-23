@@ -88,6 +88,7 @@ Various other members of the xbmc/kodi community for advice.
 
 ## Versions
 
++ **23.04.19:** Bump Leia to 18.2.
 + **13.03.19:** Switch to Leia.
 + **03.09.18:** Add back libnfs dependency.
 + **31.08.18:** Rebase to ubuntu bionic, use buildstage and add info about websockets port.
